@@ -41,3 +41,11 @@ public class GameManager : MonoBehaviour
     }
 
 }
+public static class DebugHelper
+{
+    public static void Log(object ctx,string color)
+    {
+        if (string.IsNullOrEmpty(color)) color = "white";
+        Debug.Log($"<color={color}>" + ctx + "</color>");
+    }
+}
