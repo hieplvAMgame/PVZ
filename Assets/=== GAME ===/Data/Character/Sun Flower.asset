@@ -16,5 +16,5 @@ MonoBehaviour:
   hp: 5
   info:
     damage: 0
-    timeReload: 0
     radiusAttack: 0
+    moveSpeed: 0

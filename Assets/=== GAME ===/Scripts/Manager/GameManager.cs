@@ -5,6 +5,18 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] PlantBar uiBar;
+    int sunVal;
+    public int TotalSun
+    {
+        get => sunVal;
+        set
+        {
+            sunVal = value;
+            if (sunVal <= 0) sunVal = 0;
+            uiBar.UpdateTextSun(sunVal);
+        }
+    }
     public static GameManager Instance;
     private void Awake()
     {
@@ -13,6 +25,7 @@ public class GameManager : MonoBehaviour
         else
             Destroy(gameObject);
         CardUI.OnClickCard = SelectCard;
+        TotalSun = 50;
     }
 
     public bool IsSelectCard = false;
@@ -23,10 +36,12 @@ public class GameManager : MonoBehaviour
     public void SelectCard(CardSO cardSO)
     {
         if (IsSelectCard) return;
+        if (TotalSun < cardSO.cost) return;
+        TotalSun -= cardSO.cost;
         IsSelectCard = true;
         CurrentIdCard = cardSO.id;
         StartPlacePlant();
-    }   
+    }
     public void StartPlacePlant()
     {
         Cursor.ActivePlant(CurrentIdCard);
@@ -39,11 +54,11 @@ public class GameManager : MonoBehaviour
         CurrentIdCard = -1;
         Cursor.ActivePlant();
     }
-
+    public void AddSun(int value) => TotalSun += value;
 }
 public static class DebugHelper
 {
-    public static void Log(object ctx,string color)
+    public static void Log(object ctx, string color)
     {
         if (string.IsNullOrEmpty(color)) color = "white";
         Debug.Log($"<color={color}>" + ctx + "</color>");

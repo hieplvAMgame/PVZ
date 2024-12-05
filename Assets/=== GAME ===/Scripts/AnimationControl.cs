@@ -22,7 +22,7 @@ public class AnimationControl : MonoBehaviour
 
     }
     public void Attack()
-    {
+    {   
         onAttack?.Invoke();
     }
     public void OnAttack(Action action) => onAttack = action;

@@ -23,7 +23,7 @@ public class CardUI : MonoBehaviour
         selfButton = GetComponent<Button>();
         selfButton.onClick.AddListener(() =>
         {
-            if (GameManager.Instance.IsSelectCard) return;
+            if (GameManager.Instance.IsSelectCard || GameManager.Instance.TotalSun < data.cost) return;
             OnClickCard?.Invoke(data);
             StartCountdown();
         });

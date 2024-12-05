@@ -17,4 +17,4 @@ MonoBehaviour:
   info:
     damage: 2
     radiusAttack: 30
-    moveSpeed: 0.1
+    moveSpeed: 0.2

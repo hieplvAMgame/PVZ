@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AllyAttack : StateBase
 {
     public override State State => State.Attack;
@@ -26,8 +27,14 @@ public class AllyAttack : StateBase
     }
     void Attack()
     {
-        // Spawn projectile
-        // Sfx
-        DebugHelper.Log("Ally Attack", "green");
+        var owner = GetOwner<Ally>();
+        go = Instantiate(projectile, shootingPoint.position, Quaternion.identity);
+        go.Setup(Vector2.right, speedProjectile, owner.data);
+        go.tag = owner.tag;
     }
+    [SerializeField] Projectile projectile;
+    [SerializeField] Transform shootingPoint;
+    [SerializeField] float speedProjectile;
+    Projectile go;
+
 }

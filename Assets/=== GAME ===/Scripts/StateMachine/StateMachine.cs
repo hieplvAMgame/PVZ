@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ public class StateMachine : MonoBehaviour
 {
     [SerializeField] List<StateBase> allStates = new List<StateBase>();
     [SerializeField] StateBase currentState;
-    public StateBase GetState(State state) => allStates.First(x => x.State == state);
+    public StateBase GetState(State state) => allStates.FirstOrDefault(x => x.State == state);
 
     public bool debug;
     [ShowIf(nameof(debug))]
@@ -62,6 +63,13 @@ public abstract class StateBase : MonoBehaviour
 
     public abstract void OnExit();
 
+    public virtual T GetOwner<T>() where T : CharacterBase
+    {
+        var t = stateMachine.GetComponent<CharacterBase>();
+        if (t is T owner)
+            return owner;
+        throw new InvalidCastException($"Cannot get {typeof(T).Name} from {t.GetType().Name} ");
+    }
 }
 
 public enum State

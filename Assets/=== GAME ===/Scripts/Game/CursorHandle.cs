@@ -6,17 +6,18 @@ using UnityEngine;
 public class CursorHandle : MonoBehaviour
 {
     [SerializeField] List<GameObject> plants = new List<GameObject>();
-    public bool isActive = false;
+    public bool havePlanOnCursor = false;
     [SerializeField] LayerMask whatIsGroundUnit;
+    [SerializeField] LayerMask whatIsSun;
     public void ActivePlant(int id = -1)
     {
-        isActive = false;
+        havePlanOnCursor = false;
         if (id < 0) plants.ForEach(p => p.SetActive(false));
         else
         {
             try
             {
-                isActive = true;
+                havePlanOnCursor = true;
                 for (int i = 0; i < plants.Count; i++)
                 {
                     if (i == id) plants[i].gameObject.SetActive(true);
@@ -34,14 +35,22 @@ public class CursorHandle : MonoBehaviour
 
     private void Update()
     {
-        if (!isActive) return;
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0;
         transform.position = mousePos;
-
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 origin = new Vector3(mousePos.x, mousePos.y);
+            if (!havePlanOnCursor)
+            {
+                hit = Physics2D.OverlapCircle(origin, .1f, whatIsSun);
+                if(hit!=null)
+                {
+                    Destroy(hit.gameObject);
+                    GameManager.Instance.AddSun(50);
+                }
+                return;
+            }
             hit = Physics2D.OverlapCircle(origin,.1f,whatIsGroundUnit);
             if (hit != null)
             {

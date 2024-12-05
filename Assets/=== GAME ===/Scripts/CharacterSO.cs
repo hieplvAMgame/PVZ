@@ -26,7 +26,7 @@ public class CharacterSO : ScriptableObject
             onDie?.Invoke();
         }
     }
-
+    public bool IsAlive => currentHP > 0;
 }
 [System.Serializable]
 public class CharacterInfo

@@ -21,7 +21,7 @@ public class GroundUnit : MonoBehaviour
         for (int i = 0; i < p.transform.childCount; i++)
         {
             int index = i;
-            if (index == idPlant)
+            if (index == idPlant)   
                 p.transform.GetChild(index).gameObject.SetActive(true);
             else p.transform.GetChild(index).gameObject.SetActive(false);
         }
